@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban_Snap - Smooth Cinematic Loop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030303;
+            --accent: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Scroll Snapping */
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: #fff;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        section {
+            height: 100vh;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hero Section Panorámico */
+        .hero-video-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #000;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+        }
+
+        /* Marquesina Divisora */
+        .divider-marquee {
+            width: 100%;
+            background: #fff;
+            color: #000;
+            padding: 15px 0;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 50;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: scroll 20s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Glassmorphism */
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* Side Cart Menu */
+        #cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(30px);
+            z-index: 200;
+            transform: translateX(100%);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-left: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #cart-sidebar.open {
+            transform: translateX(0);
+        }
+
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 190;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .cart-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* WhatsApp - Estilo Glass & Posición Elevada */
+        .wa-float {
+            position: fixed;
+            bottom: 120px;
+            right: 40px;
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .wa-float:hover { 
+            transform: scale(1.1); 
+            background: rgba(255, 255, 255, 1);
+        }
+        
+        .wa-float:hover svg { fill: #000; }
+
+        /* Catalog Layout */
+        .catalog-container {
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        /* Scroll Guide */
+        .scroll-guide {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.5;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translate(-50%, 0);}
+            40% {transform: translate(-50%, -10px);}
+            60% {transform: translate(-50%, -5px);}
+        }
+
+        .guide-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, #fff, transparent);
+        }
+
+        .image-skeleton {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #0a0a0a, #151515);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Overlay Carrito -->
+    <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+
+    <!-- Panel Lateral Carrito -->
+    <div id="cart-sidebar">
+        <div class="p-8 flex justify-between items-center border-b border-white/5">
+            <h3 class="text-xl font-black uppercase tracking-tighter italic text-white">Tu Carrito</h3>
+            <button onclick="toggleCart()" class="opacity-50 hover:opacity-100 uppercase text-[10px] font-bold tracking-widest text-white">Cerrar</button>
+        </div>
+        
+        <div id="cart-items" class="flex-1 overflow-y-auto px-8 py-6 space-y-6 text-white">
+            <p class="text-[10px] opacity-30 text-center uppercase tracking-widest mt-10">El carrito está vacío</p>
+        </div>
+
+        <div class="p-8 glass bg-white/5 border-t border-white/5">
+            <div class="flex justify-between items-end mb-6">
+                <span class="text-[10px] font-bold uppercase opacity-40 tracking-widest text-white">Total</span>
+                <span id="cart-total" class="text-2xl font-black italic text-white">$0.00</span>
+            </div>
+            <button class="w-full py-4 bg-white text-black font-black uppercase text-[11px] tracking-[0.2em] rounded-md hover:bg-white/90 transition-all">
+                Finalizar Compra
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-[100] flex justify-between items-center px-10 py-8 mix-blend-difference">
+        <div class="text-2xl font-black tracking-tighter uppercase text-white">Urban_Snap</div>
+        <div class="flex items-center space-x-6">
+            <div onclick="toggleCart()" class="relative w-10 h-10 rounded-full border border-white/20 flex items-center justify-center cursor-pointer hover:bg-white/10 transition-all">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+                <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-black text-[8px] font-black w-4 h-4 flex items-center justify-center rounded-full">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: CINEMATIC HERO -->
+    <section class="flex flex-col">
+        <div class="hero-video-container">
+            <div class="video-wrapper">
+                <!-- Reemplaza el src con tu enlace directo de GitHub -->
+                <video id="heroVideo" autoplay muted playsinline preload="auto">
+                    <source src="https://v1.mixkit.co/videos/preview/mixkit-shoes-sneakers-and-urban-clothing-details-41215-preview.mp4" type="video/mp4">
+                    Tu navegador no soporta video.
+                </video>
+                <div class="absolute inset-0 bg-black/40"></div>
+            </div>
+            
+            <div class="absolute inset-0 flex flex-col justify-end p-12 z-10 pointer-events-none">
+                <div class="flex justify-between items-end w-full">
+                    <div>
+                        <p class="text-[10px] font-bold uppercase tracking-[0.5em] opacity-60">todos tus pares</p>
+                    </div>
+                    
+                    <div class="scroll-guide">
+                        <span class="text-[8px] font-black uppercase tracking-[0.6em] text-white">Scroll</span>
+                        <div class="guide-line"></div>
+                    </div>
+
+                    <div class="text-right">
+                        <p class="text-[10px] font-bold uppercase tracking-[0.5em] opacity-60">en un solo lugar</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: CATALOG -->
+    <section class="flex flex-col bg-[#050505]">
+        <div class="divider-marquee">
+            <div class="marquee-content">
+                <span>NEW ARRIVAL: GHOST SHELL ALPHA // 15% OFF FIRST ORDER // LIMITED STOCK // NEW ARRIVAL: GHOST SHELL ALPHA // 15% OFF FIRST ORDER // LIMITED STOCK // &nbsp;</span>
+                <span>NEW ARRIVAL: GHOST SHELL ALPHA // 15% OFF FIRST ORDER // LIMITED STOCK // NEW ARRIVAL: GHOST SHELL ALPHA // 15% OFF FIRST ORDER // LIMITED STOCK // &nbsp;</span>
+            </div>
+        </div>
+
+        <div class="catalog-container p-10 md:p-16">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex justify-between items-center mb-12">
+                    <h2 class="text-3xl font-black uppercase tracking-tighter italic text-white">Collection_024</h2>
+                    <div class="text-[9px] font-bold opacity-30 uppercase tracking-widest text-white">Filtros / Sort</div>
+                </div>
+
+                <!-- Grid 3x3 -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-16">
+                    <script>
+                        const products = [
+                            { id: 1, name: "Apex Runner V1", price: 180 },
+                            { id: 2, name: "Ghost Shell Alpha", price: 210 },
+                            { id: 3, name: "Cyber Core", price: 195 },
+                            { id: 4, name: "Urban Vault S1", price: 160 },
+                            { id: 5, name: "Neon Pulse X", price: 220 },
+                            { id: 6, name: "Shadow Walk", price: 175 },
+                            { id: 7, name: "Lunar Step", price: 200 },
+                            { id: 8, name: "Vortex Tech", price: 190 },
+                            { id: 9, name: "Gravity Shell", price: 230 }
+                        ];
+
+                        products.forEach(p => {
+                            document.write(`
+                                <div class="flex flex-col group">
+                                    <div class="glass-card aspect-[4/5] mb-4 p-3">
+                                        <div class="image-skeleton group-hover:scale-105 transition-transform duration-1000">
+                                            <span class="text-white/5 font-black text-[10px] uppercase tracking-widest">${p.name}</span>
+                                        </div>
+                                    </div>
+                                    <div class="px-1">
+                                        <div class="flex justify-between items-start mb-1">
+                                            <h4 class="text-[11px] font-black uppercase tracking-wider text-white">${p.name}</h4>
+                                            <span class="text-[9px] opacity-20 italic text-white">$${p.price}.00</span>
+                                        </div>
+                                        <p class="text-[8px] opacity-40 uppercase tracking-widest mb-3 text-white">Urban Footwear</p>
+                                        <button onclick="addToCart('${p.name}', ${p.price})" class="w-full py-2.5 border border-white/5 text-[8px] font-black uppercase tracking-[0.2em] rounded-md hover:bg-white hover:text-black transition-all text-white hover:text-black">Add to Cart</button>
+                                    </div>
+                                </div>
+                            `);
+                        });
+                    </script>
+                </div>
+                
+                <footer class="mt-32 pb-10 text-center opacity-10">
+                    <p class="text-[9px] font-bold uppercase tracking-[0.5em] text-white">Urban_Snap © 2024</p>
+                </footer>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp -->
+    <a href="#" class="wa-float">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24" style="transition: fill 0.3s ease;">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48s3.481 5.229 3.481 8.405c0 6.555-5.332 11.887-11.888 11.887-2.007 0-3.974-.506-5.717-1.464l-6.367 1.689zm6.012-3.837c1.552.921 3.23 1.408 5.051 1.408 5.403 0 9.802-4.398 9.802-9.802 0-2.618-1.02-5.08-2.871-6.931-1.851-1.851-4.313-2.871-6.931-2.871-5.403 0-9.801 4.398-9.801 9.801 0 1.933.568 3.818 1.644 5.449l-.991 3.623 3.71-.977zm11.383-7.25c-.097-.163-.36-.262-.754-.46s-2.33-1.15-2.69-1.282c-.361-.132-.623-.198-.885.197-.262.394-1.017 1.281-1.247 1.543-.229.263-.459.296-.853.099-.394-.197-1.662-.612-3.166-1.954-1.171-1.045-1.96-2.336-2.189-2.73-.23-.395-.024-.608.173-.805.178-.177.394-.46.591-.689.197-.23.262-.394.393-.656.132-.262.066-.492-.033-.689-.098-.197-.885-2.134-1.213-2.921-.32-.768-.644-.664-.885-.676-.229-.011-.492-.013-.755-.013-.262 0-.688.099-1.048.492-.361.394-1.378 1.346-1.378 3.282 0 1.936 1.411 3.807 1.608 4.069.197.263 2.777 4.241 6.727 5.946 1.08.466 1.92.744 2.574.952.955.304 1.82.261 2.505.159.764-.114 2.33-.952 2.658-1.871.328-.918.328-1.706.23-1.871z"/>
+        </svg>
+    </a>
+
+    <script>
+        const video = document.getElementById('heroVideo');
+        let cart = [];
+        let isReversing = false;
+
+        // --- SISTEMA DE PING-PONG LÓGICO MEJORADO ---
+        function updateVideoLoop() {
+            if (isReversing) {
+                // Retroceso manual
+                if (video.currentTime <= 0.1) {
+                    isReversing = false;
+                    video.play();
+                } else {
+                    // Restamos tiempo proporcionalmente para un retroceso suave
+                    video.currentTime -= 0.033; 
+                }
+            } else {
+                // Avance normal
+                if (video.currentTime >= video.duration - 0.2) {
+                    isReversing = true;
+                    video.pause();
+                }
+            }
+            requestAnimationFrame(updateVideoLoop);
+        }
+
+        // Iniciar loop cuando los metadatos estén listos
+        video.addEventListener('loadedmetadata', () => {
+            updateVideoLoop();
+        });
+
+        // --- SISTEMA DE CARRITO ---
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+        }
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCartUI();
+            const countBadge = document.getElementById('cart-count');
+            countBadge.style.transform = 'scale(1.5)';
+            setTimeout(() => countBadge.style.transform = 'scale(1)', 200);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items');
+            const countBadge = document.getElementById('cart-count');
+            const totalDisplay = document.getElementById('cart-total');
+            countBadge.innerText = cart.length;
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p class="text-[10px] opacity-30 text-center uppercase tracking-widest mt-10 text-white">El carrito está vacío</p>`;
+                totalDisplay.innerText = "$0.00";
+                return;
+            }
+
+            let total = 0;
+            container.innerHTML = '';
+            cart.forEach((item, index) => {
+                total += item.price;
+                const itemEl = document.createElement('div');
+                itemEl.className = 'flex justify-between items-center glass-card p-4 border border-white/5';
+                itemEl.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <div class="w-10 h-10 bg-white/5 rounded-md flex items-center justify-center overflow-hidden">
+                            <span class="text-[8px] font-black opacity-10 uppercase text-white">ITEM</span>
+                        </div>
+                        <div class="text-white">
+                            <p class="text-[10px] font-black uppercase tracking-tight">${item.name}</p>
+                            <p class="text-[9px] opacity-40">$${item.price}.00</p>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${index})" class="text-[9px] font-bold opacity-30 hover:opacity-100 uppercase tracking-widest text-white">Borrar</button>
+                `;
+                container.appendChild(itemEl);
+            });
+            totalDisplay.innerText = `$${total}.00`;
+        }
+    </script>
+</body>
+</html>

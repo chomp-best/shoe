@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urban_Snap - Smooth Cinematic Loop</title>
+    <title>Urban_Snap - Estilo Cinematográfico</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
@@ -14,7 +14,7 @@
             --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        /* Scroll Snapping */
+        /* Desplazamiento Magnético (Scroll Snapping) */
         html {
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
@@ -35,7 +35,7 @@
             overflow: hidden;
         }
 
-        /* Hero Section Panorámico */
+        /* Contenedor de Video Hero */
         .hero-video-container {
             width: 100%;
             height: 100%;
@@ -56,6 +56,7 @@
             height: 100%;
             object-fit: cover;
             opacity: 0.7;
+            background: #000;
         }
 
         /* Marquesina Divisora */
@@ -83,7 +84,7 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Glassmorphism */
+        /* Tarjetas Estilo Cristal */
         .glass-card {
             background: var(--glass);
             backdrop-filter: blur(20px);
@@ -98,7 +99,7 @@
             background: rgba(255,255,255,0.06);
         }
 
-        /* Side Cart Menu */
+        /* Menú Lateral del Carrito */
         #cart-sidebar {
             position: fixed;
             top: 0;
@@ -135,7 +136,7 @@
             pointer-events: auto;
         }
 
-        /* WhatsApp - Estilo Glass & Posición Elevada */
+        /* Botón WhatsApp Personalizado */
         .wa-float {
             position: fixed;
             bottom: 120px;
@@ -161,13 +162,13 @@
         
         .wa-float:hover svg { fill: #000; }
 
-        /* Catalog Layout */
+        /* Contenedor del Catálogo */
         .catalog-container {
             height: 100vh;
             overflow-y: auto;
         }
 
-        /* Scroll Guide */
+        /* Guía de Scroll Animada */
         .scroll-guide {
             position: absolute;
             bottom: 40px;
@@ -233,7 +234,7 @@
         </div>
     </div>
 
-    <!-- Navigation -->
+    <!-- Navegación Superior -->
     <nav class="fixed top-0 w-full z-[100] flex justify-between items-center px-10 py-8 mix-blend-difference">
         <div class="text-2xl font-black tracking-tighter uppercase text-white">Urban_Snap</div>
         <div class="flex items-center space-x-6">
@@ -248,12 +249,12 @@
         </div>
     </nav>
 
-    <!-- SECTION 1: CINEMATIC HERO -->
+    <!-- SECCIÓN 1: HERO CINEMATOGRÁFICO -->
     <section class="flex flex-col">
         <div class="hero-video-container">
             <div class="video-wrapper">
-                <!-- Reemplaza el src con tu enlace directo de GitHub -->
-                <video id="heroVideo" autoplay muted playsinline preload="auto">
+                <!-- RUTA RELATIVA: Asegúrate de que el video se llame video.mp4 y esté en la misma carpeta que el HTML -->
+                <video id="heroVideo" autoplay muted playsinline preload="auto" crossorigin="anonymous">
                     <source src="./video.mp4" type="video/mp4">
                     Tu navegador no soporta video.
                 </video>
@@ -267,7 +268,7 @@
                     </div>
                     
                     <div class="scroll-guide">
-                        <span class="text-[8px] font-black uppercase tracking-[0.6em] text-white">Scroll</span>
+                        <span class="text-[8px] font-black uppercase tracking-[0.6em] text-white">Desliza</span>
                         <div class="guide-line"></div>
                     </div>
 
@@ -279,23 +280,23 @@
         </div>
     </section>
 
-    <!-- SECTION 2: CATALOG -->
+    <!-- SECCIÓN 2: CATÁLOGO -->
     <section class="flex flex-col bg-[#050505]">
         <div class="divider-marquee">
             <div class="marquee-content">
-                <span>NEW ARRIVAL: GHOST SHELL ALPHA // 15% OFF FIRST ORDER // LIMITED STOCK // NEW ARRIVAL: GHOST SHELL ALPHA // 15% OFF FIRST ORDER // LIMITED STOCK // &nbsp;</span>
-                <span>NEW ARRIVAL: GHOST SHELL ALPHA // 15% OFF FIRST ORDER // LIMITED STOCK // NEW ARRIVAL: GHOST SHELL ALPHA // 15% OFF FIRST ORDER // LIMITED STOCK // &nbsp;</span>
+                <span>NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // &nbsp;</span>
+                <span>NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // &nbsp;</span>
             </div>
         </div>
 
-        <div class="catalog-container p-10 md:p-16">
+        <div class="catalog-container p-10 md:p-16 no-scrollbar">
             <div class="max-w-5xl mx-auto">
                 <div class="flex justify-between items-center mb-12">
-                    <h2 class="text-3xl font-black uppercase tracking-tighter italic text-white">Collection_024</h2>
-                    <div class="text-[9px] font-bold opacity-30 uppercase tracking-widest text-white">Filtros / Sort</div>
+                    <h2 class="text-3xl font-black uppercase tracking-tighter italic text-white">Colección_2024</h2>
+                    <div class="text-[9px] font-bold opacity-30 uppercase tracking-widest text-white">Filtrar / Ordenar</div>
                 </div>
 
-                <!-- Grid 3x3 -->
+                <!-- Grilla 3x3 -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-16">
                     <script>
                         const products = [
@@ -323,8 +324,8 @@
                                             <h4 class="text-[11px] font-black uppercase tracking-wider text-white">${p.name}</h4>
                                             <span class="text-[9px] opacity-20 italic text-white">$${p.price}.00</span>
                                         </div>
-                                        <p class="text-[8px] opacity-40 uppercase tracking-widest mb-3 text-white">Urban Footwear</p>
-                                        <button onclick="addToCart('${p.name}', ${p.price})" class="w-full py-2.5 border border-white/5 text-[8px] font-black uppercase tracking-[0.2em] rounded-md hover:bg-white hover:text-black transition-all text-white hover:text-black">Add to Cart</button>
+                                        <p class="text-[8px] opacity-40 uppercase tracking-widest mb-3 text-white">Calzado Urbano</p>
+                                        <button onclick="addToCart('${p.name}', ${p.price})" class="w-full py-2.5 border border-white/5 text-[8px] font-black uppercase tracking-[0.2em] rounded-md hover:bg-white hover:text-black transition-all text-white hover:text-black">Añadir al Carrito</button>
                                     </div>
                                 </div>
                             `);
@@ -340,7 +341,7 @@
     </section>
 
     <!-- WhatsApp -->
-    <a href="#" class="wa-float">
+    <a href="https://wa.me/tunumero" target="_blank" class="wa-float">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24" style="transition: fill 0.3s ease;">
             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48s3.481 5.229 3.481 8.405c0 6.555-5.332 11.887-11.888 11.887-2.007 0-3.974-.506-5.717-1.464l-6.367 1.689zm6.012-3.837c1.552.921 3.23 1.408 5.051 1.408 5.403 0 9.802-4.398 9.802-9.802 0-2.618-1.02-5.08-2.871-6.931-1.851-1.851-4.313-2.871-6.931-2.871-5.403 0-9.801 4.398-9.801 9.801 0 1.933.568 3.818 1.644 5.449l-.991 3.623 3.71-.977zm11.383-7.25c-.097-.163-.36-.262-.754-.46s-2.33-1.15-2.69-1.282c-.361-.132-.623-.198-.885.197-.262.394-1.017 1.281-1.247 1.543-.229.263-.459.296-.853.099-.394-.197-1.662-.612-3.166-1.954-1.171-1.045-1.96-2.336-2.189-2.73-.23-.395-.024-.608.173-.805.178-.177.394-.46.591-.689.197-.23.262-.394.393-.656.132-.262.066-.492-.033-.689-.098-.197-.885-2.134-1.213-2.921-.32-.768-.644-.664-.885-.676-.229-.011-.492-.013-.755-.013-.262 0-.688.099-1.048.492-.361.394-1.378 1.346-1.378 3.282 0 1.936 1.411 3.807 1.608 4.069.197.263 2.777 4.241 6.727 5.946 1.08.466 1.92.744 2.574.952.955.304 1.82.261 2.505.159.764-.114 2.33-.952 2.658-1.871.328-.918.328-1.706.23-1.871z"/>
         </svg>
@@ -350,17 +351,23 @@
         const video = document.getElementById('heroVideo');
         let cart = [];
         let isReversing = false;
+        let lastTime = 0;
 
-        // --- SISTEMA DE PING-PONG LÓGICO MEJORADO ---
-        function updateVideoLoop() {
+        // --- SISTEMA DE PING-PONG LÓGICO ---
+        function updateVideoLoop(now) {
+            if (!video.duration || isNaN(video.duration)) {
+                requestAnimationFrame(updateVideoLoop);
+                return;
+            }
+
             if (isReversing) {
                 // Retroceso manual
                 if (video.currentTime <= 0.1) {
                     isReversing = false;
-                    video.play();
+                    video.play().catch(() => {});
                 } else {
-                    // Restamos tiempo proporcionalmente para un retroceso suave
-                    video.currentTime -= 0.033; 
+                    // Retrocedemos frame a frame (0.05 es la velocidad)
+                    video.currentTime -= 0.05; 
                 }
             } else {
                 // Avance normal
@@ -372,10 +379,15 @@
             requestAnimationFrame(updateVideoLoop);
         }
 
-        // Iniciar loop cuando los metadatos estén listos
+        // Iniciar loop al cargar metadatos
         video.addEventListener('loadedmetadata', () => {
-            updateVideoLoop();
+            requestAnimationFrame(updateVideoLoop);
         });
+
+        // Intentar reproducir si hay bloqueo de navegador
+        document.addEventListener('click', () => {
+            if (video.paused && !isReversing) video.play().catch(() => {});
+        }, { once: true });
 
         // --- SISTEMA DE CARRITO ---
         function toggleCart() {
@@ -419,7 +431,7 @@
                 itemEl.innerHTML = `
                     <div class="flex items-center space-x-4">
                         <div class="w-10 h-10 bg-white/5 rounded-md flex items-center justify-center overflow-hidden">
-                            <span class="text-[8px] font-black opacity-10 uppercase text-white">ITEM</span>
+                            <span class="text-[8px] font-black opacity-10 uppercase text-white">SNKR</span>
                         </div>
                         <div class="text-white">
                             <p class="text-[10px] font-black uppercase tracking-tight">${item.name}</p>

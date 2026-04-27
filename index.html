@@ -38,10 +38,10 @@
             align-items: center;
         }
 
-        /* Hero Video Achicado y sin Zoom */
+        /* Hero Video: Tamaño optimizado y sin zoom excesivo */
         .hero-video-container {
             width: 100%;
-            height: 500vh; /* Altura reducida para que no llene toda la pantalla */
+            height: 80vh; /* Ajustado de 500vh a 80vh */
             position: relative;
             display: flex;
             align-items: center;
@@ -50,7 +50,7 @@
         }
 
         .video-wrapper {
-            width: 100%; /* Ancho reducido para evitar zoom */
+            width: 100%;
             height: 100%;
             display: flex;
             align-items: center;
@@ -60,8 +60,7 @@
         .video-wrapper video {
             width: 100%;
             height: 100%;
-            /* Object-fit: contain elimina el zoom y muestra el video completo */
-            object-fit: contain; 
+            object-fit: contain; /* Muestra el calzado completo sin recortar */
             opacity: 0.9;
         }
 
@@ -81,7 +80,7 @@
 
         .marquee-content {
             display: inline-block;
-            animation: scroll 20s linear infinite;
+            animation: scroll 25s linear infinite;
         }
 
         @keyframes scroll {
@@ -103,6 +102,7 @@
             background: rgba(255,255,255,0.06);
         }
 
+        /* Carrito Lateral */
         #cart-sidebar {
             position: fixed;
             top: 0;
@@ -111,7 +111,7 @@
             max-width: 400px;
             height: 100vh;
             background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(30px);
+            backdrop-filter: blur(40px);
             z-index: 200;
             transform: translateX(100%);
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -125,21 +125,19 @@
         .cart-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.7);
             z-index: 190;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.5s ease;
         }
 
-        .cart-overlay.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .cart-overlay.show { opacity: 1; pointer-events: auto; }
 
+        /* Botón WhatsApp Estilo Glass */
         .wa-float {
             position: fixed;
-            bottom: 120px;
+            bottom: 140px;
             right: 40px;
             width: 55px;
             height: 55px;
@@ -155,11 +153,7 @@
             transition: all 0.3s ease;
         }
 
-        .wa-float:hover { 
-            transform: scale(1.1); 
-            background: #fff;
-        }
-        
+        .wa-float:hover { transform: scale(1.1); background: #fff; }
         .wa-float:hover svg { fill: #000; }
 
         .catalog-container {
@@ -199,13 +193,14 @@
             border-radius: 12px;
             overflow: hidden;
             background: #000;
+            position: relative;
         }
 
         .card-video-container video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            opacity: 0.9;
+            object-fit: contain;
+            opacity: 0.95;
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -213,8 +208,10 @@
 </head>
 <body>
 
+    <!-- Overlay Carrito -->
     <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
 
+    <!-- Panel Lateral Carrito -->
     <div id="cart-sidebar">
         <div class="p-8 flex justify-between items-center border-b border-white/5">
             <h3 class="text-xl font-black uppercase tracking-tighter italic text-white">Tu Carrito</h3>
@@ -236,6 +233,7 @@
         </div>
     </div>
 
+    <!-- Navegación -->
     <nav class="fixed top-0 w-full z-[100] flex justify-between items-center px-10 py-8 mix-blend-difference">
         <div class="text-2xl font-black tracking-tighter uppercase text-white">Urban_Snap</div>
         <div onclick="toggleCart()" class="relative w-10 h-10 rounded-full border border-white/20 flex items-center justify-center cursor-pointer hover:bg-white/10 transition-all">
@@ -248,10 +246,12 @@
         </div>
     </nav>
 
+    <!-- SECTION 1: HERO -->
     <section>
         <div class="hero-video-container">
             <div class="video-wrapper">
-                <video id="heroVideo" class="ping-pong-video" autoplay muted playsinline preload="auto">
+                <!-- Video principal con bucle sutil -->
+                <video id="heroVideo" autoplay muted loop playsinline preload="auto">
                     <source src="https://raw.githubusercontent.com/chomp-best/shoe/main/Video_De_Sneaker_Giratorio_Hiperrealista.mp4" type="video/mp4">
                 </video>
             </div>
@@ -269,21 +269,23 @@
         </div>
     </section>
 
+    <!-- SECTION 2: CATALOG -->
     <section class="flex flex-col bg-[#050505]">
         <div class="divider-marquee">
             <div class="marquee-content">
-                <span>NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // &nbsp;</span>
-                <span>NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // &nbsp;</span>
+                <span>NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // &nbsp;</span>
+                <span>NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // &nbsp;</span>
             </div>
         </div>
 
         <div class="catalog-container p-10 md:p-16 no-scrollbar">
-            <div class="max-w-5xl mx-auto">
+            <div class="max-w-6xl mx-auto">
                 <div class="flex justify-between items-center mb-12">
                     <h2 class="text-3xl font-black uppercase tracking-tighter italic text-white">Colección_2024</h2>
                     <div class="text-[9px] font-bold opacity-30 uppercase tracking-widest text-white">Filtrar / Ordenar</div>
                 </div>
 
+                <!-- Grilla 3x3 -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-16">
                     <script>
                         const products = [
@@ -301,9 +303,9 @@
                         products.forEach(p => {
                             document.write(`
                                 <div class="flex flex-col group">
-                                    <div class="glass-card aspect-[4/5] mb-4 p-3">
-                                        <div class="card-video-container group-hover:scale-105 transition-transform duration-1000">
-                                            <video class="ping-pong-video w-full h-full object-cover" autoplay muted playsinline preload="auto">
+                                    <div class="glass-card aspect-[4/5] mb-4 p-3 overflow-hidden">
+                                        <div class="card-video-container group-hover:scale-110 transition-transform duration-1000 h-full w-full">
+                                            <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-contain">
                                                 <source src="https://raw.githubusercontent.com/chomp-best/shoe/main/Video_De_Sneaker_Giratorio_Hiperrealista.mp4" type="video/mp4">
                                             </video>
                                         </div>
@@ -325,56 +327,31 @@
         </div>
     </section>
 
+    <!-- WhatsApp -->
     <a href="https://wa.me/tunumero" target="_blank" class="wa-float">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24" style="transition: fill 0.3s ease;">
             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48s3.481 5.229 3.481 8.405c0 6.555-5.332 11.887-11.888 11.887-2.007 0-3.974-.506-5.717-1.464l-6.367 1.689zm6.012-3.837c1.552.921 3.23 1.408 5.051 1.408 5.403 0 9.802-4.398 9.802-9.802 0-2.618-1.02-5.08-2.871-6.931-1.851-1.851-4.313-2.871-6.931-2.871-5.403 0-9.801 4.398-9.801 9.801 0 1.933.568 3.818 1.644 5.449l-.991 3.623 3.71-.977zm11.383-7.25c-.097-.163-.36-.262-.754-.46s-2.33-1.15-2.69-1.282c-.361-.132-.623-.198-.885.197-.262.394-1.017 1.281-1.247 1.543-.229.263-.459.296-.853.099-.394-.197-1.662-.612-3.166-1.954-1.171-1.045-1.96-2.336-2.189-2.73-.23-.395-.024-.608.173-.805.178-.177.394-.46.591-.689.197-.23.262-.394.393-.656.132-.262.066-.492-.033-.689-.098-.197-.885-2.134-1.213-2.921-.32-.768-.644-.664-.885-.676-.229-.011-.492-.013-.755-.013-.262 0-.688.099-1.048.492-.361.394-1.378 1.346-1.378 3.282 0 1.936 1.411 3.807 1.608 4.069.197.263 2.777 4.241 6.727 5.946 1.08.466 1.92.744 2.574.952.955.304 1.82.261 2.505.159.764-.114 2.33-.952 2.658-1.871.328-.918.328-1.706.23-1.871z"/>
         </svg>
     </a>
 
     <script>
         let cart = [];
-        const videosToLoop = [];
 
-        function initPingPongVideos() {
-            const videoElements = document.querySelectorAll('.ping-pong-video');
-            videoElements.forEach(video => {
-                const videoState = {
-                    el: video,
-                    isReversing: false,
-                    duration: 0
-                };
-                video.addEventListener('loadedmetadata', () => {
-                    videoState.duration = video.duration;
+        // Asegurar que los videos se reproduzcan incluso con restricciones de navegador
+        function forceVideos() {
+            const allVideos = document.querySelectorAll('video');
+            allVideos.forEach(v => {
+                v.muted = true;
+                v.play().catch(() => {
+                    // El navegador requiere interacción, se intentará de nuevo al hacer clic
                 });
-                videosToLoop.push(videoState);
             });
-            requestAnimationFrame(pingPongLoop);
         }
 
-        function pingPongLoop() {
-            videosToLoop.forEach(state => {
-                const video = state.el;
-                if (!state.duration || isNaN(state.duration)) return;
+        window.addEventListener('load', forceVideos);
+        document.addEventListener('click', forceVideos, { once: true });
 
-                if (state.isReversing) {
-                    if (video.currentTime <= 0.1) {
-                        state.isReversing = false;
-                        video.play().catch(() => {});
-                    } else {
-                        video.currentTime -= 0.04; 
-                    }
-                } else {
-                    if (video.currentTime >= state.duration - 0.2) {
-                        state.isReversing = true;
-                        video.pause();
-                    }
-                }
-            });
-            requestAnimationFrame(pingPongLoop);
-        }
-
-        window.addEventListener('DOMContentLoaded', initPingPongVideos);
-
+        // Sistema de Carrito
         function toggleCart() {
             const sidebar = document.getElementById('cart-sidebar');
             const overlay = document.getElementById('cart-overlay');
@@ -385,6 +362,10 @@
         function addToCart(name, price) {
             cart.push({ name, price });
             updateCartUI();
+            // Feedback visual en el contador
+            const badge = document.getElementById('cart-count');
+            badge.style.transform = 'scale(1.5)';
+            setTimeout(() => badge.style.transform = 'scale(1)', 200);
         }
 
         function updateCartUI() {
@@ -401,11 +382,11 @@
 
             let total = 0;
             container.innerHTML = '';
-            cart.forEach((item, index) => {
+            cart.forEach((item) => {
                 total += item.price;
                 const itemEl = document.createElement('div');
                 itemEl.className = 'flex justify-between items-center glass-card p-4 border border-white/5';
-                itemEl.innerHTML = `<div class="text-white text-[10px] font-bold uppercase">${item.name} <br> <span class="opacity-40">$${item.price}</span></div>`;
+                itemEl.innerHTML = `<div class="text-white text-[10px] font-bold uppercase">${item.name} <br> <span class="opacity-40">$${item.price}.00</span></div>`;
                 container.appendChild(itemEl);
             });
             totalDisplay.innerText = `$${total}.00`;

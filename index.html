@@ -38,16 +38,14 @@
             align-items: center;
         }
 
-        /* Hero Video Redimensionado y Contenido */
+        /* Hero Video Redimensionado para evitar zoom y barras */
         .hero-video-container {
-            width: 90%;
-            height: 75vh; 
+            width: 100%;
+            height: 70vh; 
             position: relative;
             background: #000;
             z-index: 1;
-            border-radius: 32px;
             overflow: hidden;
-            border: 1px solid var(--glass-border);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -64,8 +62,9 @@
         .video-wrapper video {
             width: 100%;
             height: 100%;
+            /* 'cover' con altura controlada para reducir el zoom visual */
             object-fit: cover; 
-            opacity: 0.85;
+            opacity: 0.9;
             display: block;
         }
 
@@ -102,11 +101,6 @@
             transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
         }
 
-        .glass-card:hover {
-            transform: translateY(-8px);
-            background: rgba(255,255,255,0.06);
-        }
-
         #cart-sidebar {
             position: fixed;
             top: 0;
@@ -136,10 +130,7 @@
             transition: opacity 0.5s ease;
         }
 
-        .cart-overlay.show {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .cart-overlay.show { opacity: 1; pointer-events: auto; }
 
         .wa-float {
             position: fixed;
@@ -159,11 +150,7 @@
             transition: all 0.3s ease;
         }
 
-        .wa-float:hover { 
-            transform: scale(1.1); 
-            background: #fff;
-        }
-        
+        .wa-float:hover { transform: scale(1.1); background: #fff; }
         .wa-float:hover svg { fill: #000; }
 
         .catalog-container {
@@ -258,9 +245,8 @@
         <div class="hero-video-container">
             <div class="video-wrapper">
                 <video id="heroVideo" class="ping-pong-video" autoplay muted playsinline preload="auto">
-                    <!-- Reemplaza este src con tu enlace de GitHub .mp4 cuando lo tengas disponible -->
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-shoes-sneakers-and-urban-clothing-details-41215-preview.mp4" type="video/mp4">
                     <source src="https://raw.githubusercontent.com/chomp-best/shoe/main/Video_De_Sneaker_Giratorio_Hiperrealista.mp4" type="video/mp4">
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-shoes-sneakers-and-urban-clothing-details-41215-preview.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
@@ -310,10 +296,10 @@
                         products.forEach(p => {
                             document.write(`
                                 <div class="flex flex-col group">
-                                    <div class="glass-card aspect-[4/5] mb-4 p-3">
-                                        <div class="card-video-container group-hover:scale-105 transition-transform duration-1000">
-                                            <video class="ping-pong-video w-full h-full object-cover" autoplay muted playsinline preload="auto">
-                                                <source src="https://assets.mixkit.co/videos/preview/mixkit-shoes-sneakers-and-urban-clothing-details-41215-preview.mp4" type="video/mp4">
+                                    <div class="glass-card aspect-[4/5] mb-4 p-3 overflow-hidden">
+                                        <div class="card-video-container group-hover:scale-105 transition-transform duration-1000 h-full w-full">
+                                            <video class="ping-pong-video w-full h-full object-cover" autoplay muted playsinline preload="auto" loop>
+                                                <source src="https://raw.githubusercontent.com/chomp-best/shoe/main/Video_De_Sneaker_Giratorio_Hiperrealista.mp4" type="video/mp4">
                                             </video>
                                         </div>
                                     </div>
@@ -336,7 +322,7 @@
 
     <!-- WhatsApp -->
     <a href="https://wa.me/tunumero" target="_blank" class="wa-float">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24" style="transition: fill 0.3s ease;">
             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48s3.481 5.229 3.481 8.405c0 6.555-5.332 11.887-11.888 11.887-2.007 0-3.974-.506-5.717-1.464l-6.367 1.689zm6.012-3.837c1.552.921 3.23 1.408 5.051 1.408 5.403 0 9.802-4.398 9.802-9.802 0-2.618-1.02-5.08-2.871-6.931-1.851-1.851-4.313-2.871-6.931-2.871-5.403 0-9.801 4.398-9.801 9.801 0 1.933.568 3.818 1.644 5.449l-.991 3.623 3.71-.977zm11.383-7.25c-.097-.163-.36-.262-.754-.46s-2.33-1.15-2.69-1.282c-.361-.132-.623-.198-.885.197-.262.394-1.017 1.281-1.247 1.543-.229.263-.459.296-.853.099-.394-.197-1.662-.612-3.166-1.954-1.171-1.045-1.96-2.336-2.189-2.73-.23-.395-.024-.608.173-.805.178-.177.394-.46.591-.689.197-.23.262-.394.393-.656.132-.262.066-.492-.033-.689-.098-.197-.885-2.134-1.213-2.921-.32-.768-.644-.664-.885-.676-.229-.011-.492-.013-.755-.013-.262 0-.688.099-1.048.492-.361.394-1.378 1.346-1.378 3.282 0 1.936 1.411 3.807 1.608 4.069.197.263 2.777 4.241 6.727 5.946 1.08.466 1.92.744 2.574.952.955.304 1.82.261 2.505.159.764-.114 2.33-.952 2.658-1.871.328-.918.328-1.706.23-1.871z"/>
         </svg>
     </a>
@@ -354,14 +340,16 @@
                     duration: 0
                 };
                 
-                // Forzar reproducción inicial y mutear
                 video.muted = true;
-                video.play().catch(() => {
-                    console.log("Esperando interacción para reproducir");
-                });
-
+                
+                // Asegurar carga antes de iniciar
                 video.addEventListener('loadedmetadata', () => {
                     videoState.duration = video.duration;
+                });
+
+                // Iniciar reproducción
+                video.play().catch(() => {
+                    console.log("Esperando interacción");
                 });
 
                 videosToLoop.push(videoState);
@@ -372,18 +360,20 @@
         function pingPongLoop() {
             videosToLoop.forEach(state => {
                 const v = state.el;
-                if (!state.duration || isNaN(state.duration) || v.readyState < 2) return;
+                
+                // Evitar lógica si el video no está listo o está en medio de una búsqueda
+                if (!v.duration || isNaN(v.duration) || v.readyState < 2 || v.seeking) return;
 
                 if (state.isReversing) {
-                    // Retroceso por software (Ping)
-                    v.currentTime -= 0.05; 
-                    if (v.currentTime <= 0.1) {
+                    // Retroceso suave: disminuimos tiempo proporcionalmente
+                    v.currentTime -= 0.045; 
+                    if (v.currentTime <= 0.2) {
                         state.isReversing = false;
                         v.play().catch(() => {});
                     }
                 } else {
-                    // Avance normal (Pong)
-                    if (v.currentTime >= state.duration - 0.2) {
+                    // Avance normal
+                    if (v.currentTime >= v.duration - 0.3) {
                         state.isReversing = true;
                         v.pause();
                     }
@@ -394,7 +384,6 @@
 
         window.addEventListener('load', initPingPongVideos);
 
-        // Forzar reproducción al hacer clic en cualquier lado (política navegadores)
         document.addEventListener('click', () => {
             videosToLoop.forEach(s => {
                 if (s.el.paused && !s.isReversing) s.el.play().catch(() => {});

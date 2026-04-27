@@ -14,7 +14,6 @@
             --glass-border: rgba(255, 255, 255, 0.08);
         }
 
-        /* Desplazamiento Magnético (Scroll Snapping) */
         html {
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
@@ -35,7 +34,6 @@
             overflow: hidden;
         }
 
-        /* Contenedor de Video Hero */
         .hero-video-container {
             width: 100%;
             height: 100%;
@@ -59,7 +57,18 @@
             background: #000;
         }
 
-        /* Marquesina Divisora */
+        /* Indicador de carga para el video */
+        #video-loader {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            z-index: 5;
+            transition: opacity 0.5s ease;
+        }
+
         .divider-marquee {
             width: 100%;
             background: #fff;
@@ -84,7 +93,6 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Tarjetas Estilo Cristal */
         .glass-card {
             background: var(--glass);
             backdrop-filter: blur(20px);
@@ -99,7 +107,6 @@
             background: rgba(255,255,255,0.06);
         }
 
-        /* Menú Lateral del Carrito */
         #cart-sidebar {
             position: fixed;
             top: 0;
@@ -107,7 +114,7 @@
             width: 100%;
             max-width: 400px;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(30px);
             z-index: 200;
             transform: translateX(100%);
@@ -117,9 +124,7 @@
             flex-direction: column;
         }
 
-        #cart-sidebar.open {
-            transform: translateX(0);
-        }
+        #cart-sidebar.open { transform: translateX(0); }
 
         .cart-overlay {
             position: fixed;
@@ -136,7 +141,6 @@
             pointer-events: auto;
         }
 
-        /* Botón WhatsApp Personalizado */
         .wa-float {
             position: fixed;
             bottom: 120px;
@@ -157,18 +161,16 @@
 
         .wa-float:hover { 
             transform: scale(1.1); 
-            background: rgba(255, 255, 255, 1);
+            background: #fff;
         }
         
         .wa-float:hover svg { fill: #000; }
 
-        /* Contenedor del Catálogo */
         .catalog-container {
             height: 100vh;
             overflow-y: auto;
         }
 
-        /* Guía de Scroll Animada */
         .scroll-guide {
             position: absolute;
             bottom: 40px;
@@ -209,10 +211,8 @@
 </head>
 <body>
 
-    <!-- Overlay Carrito -->
     <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
 
-    <!-- Panel Lateral Carrito -->
     <div id="cart-sidebar">
         <div class="p-8 flex justify-between items-center border-b border-white/5">
             <h3 class="text-xl font-black uppercase tracking-tighter italic text-white">Tu Carrito</h3>
@@ -234,7 +234,6 @@
         </div>
     </div>
 
-    <!-- Navegación Superior -->
     <nav class="fixed top-0 w-full z-[100] flex justify-between items-center px-10 py-8 mix-blend-difference">
         <div class="text-2xl font-black tracking-tighter uppercase text-white">Urban_Snap</div>
         <div class="flex items-center space-x-6">
@@ -249,14 +248,16 @@
         </div>
     </nav>
 
-    <!-- SECCIÓN 1: HERO CINEMATOGRÁFICO -->
     <section class="flex flex-col">
         <div class="hero-video-container">
+            <div id="video-loader">
+                <span class="text-[10px] font-bold uppercase tracking-[0.3em] opacity-30 animate-pulse">Cargando visual...</span>
+            </div>
             <div class="video-wrapper">
-                <!-- RUTA RELATIVA: Asegúrate de que el video se llame video.mp4 y esté en la misma carpeta que el HTML -->
+                <!-- URL ACTUALIZADA: Asegúrate de renombrar el archivo en GitHub a .mp4 -->
                 <video id="heroVideo" autoplay muted playsinline preload="auto" crossorigin="anonymous">
-                    <source src="shoe/video.mp4" type="video.mp4">
-                    Tu navegador no soporta video.
+                    <source src="https://raw.githubusercontent.com/chomp-best/shoe/main/Video_De_Sneaker_Giratorio_Hiperrealista.mp4" type="video/mp4">
+                    <source src="https://raw.githubusercontent.com/chomp-best/shoe/main/Video_De_Sneaker_Giratorio_Hiperrealista.raw" type="video/mp4">
                 </video>
                 <div class="absolute inset-0 bg-black/40"></div>
             </div>
@@ -280,23 +281,21 @@
         </div>
     </section>
 
-    <!-- SECCIÓN 2: CATÁLOGO -->
     <section class="flex flex-col bg-[#050505]">
         <div class="divider-marquee">
             <div class="marquee-content">
-                <span>NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // &nbsp;</span>
-                <span>NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // &nbsp;</span>
+                <span>NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // &nbsp;</span>
+                <span>NUEVOS INGRESOS // 15% OFF PRIMERA COMPRA // STOCK LIMITADO // ENVÍOS GRATIS // &nbsp;</span>
             </div>
         </div>
 
-        <div class="catalog-container p-10 md:p-16 no-scrollbar">
+        <div class="catalog-container p-10 md:p-16">
             <div class="max-w-5xl mx-auto">
                 <div class="flex justify-between items-center mb-12">
                     <h2 class="text-3xl font-black uppercase tracking-tighter italic text-white">Colección_2024</h2>
                     <div class="text-[9px] font-bold opacity-30 uppercase tracking-widest text-white">Filtrar / Ordenar</div>
                 </div>
 
-                <!-- Grilla 3x3 -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-16">
                     <script>
                         const products = [
@@ -340,21 +339,20 @@
         </div>
     </section>
 
-    <!-- WhatsApp -->
     <a href="https://wa.me/tunumero" target="_blank" class="wa-float">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24" style="transition: fill 0.3s ease;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" viewBox="0 0 24 24">
             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48s3.481 5.229 3.481 8.405c0 6.555-5.332 11.887-11.888 11.887-2.007 0-3.974-.506-5.717-1.464l-6.367 1.689zm6.012-3.837c1.552.921 3.23 1.408 5.051 1.408 5.403 0 9.802-4.398 9.802-9.802 0-2.618-1.02-5.08-2.871-6.931-1.851-1.851-4.313-2.871-6.931-2.871-5.403 0-9.801 4.398-9.801 9.801 0 1.933.568 3.818 1.644 5.449l-.991 3.623 3.71-.977zm11.383-7.25c-.097-.163-.36-.262-.754-.46s-2.33-1.15-2.69-1.282c-.361-.132-.623-.198-.885.197-.262.394-1.017 1.281-1.247 1.543-.229.263-.459.296-.853.099-.394-.197-1.662-.612-3.166-1.954-1.171-1.045-1.96-2.336-2.189-2.73-.23-.395-.024-.608.173-.805.178-.177.394-.46.591-.689.197-.23.262-.394.393-.656.132-.262.066-.492-.033-.689-.098-.197-.885-2.134-1.213-2.921-.32-.768-.644-.664-.885-.676-.229-.011-.492-.013-.755-.013-.262 0-.688.099-1.048.492-.361.394-1.378 1.346-1.378 3.282 0 1.936 1.411 3.807 1.608 4.069.197.263 2.777 4.241 6.727 5.946 1.08.466 1.92.744 2.574.952.955.304 1.82.261 2.505.159.764-.114 2.33-.952 2.658-1.871.328-.918.328-1.706.23-1.871z"/>
         </svg>
     </a>
 
     <script>
         const video = document.getElementById('heroVideo');
+        const loader = document.getElementById('video-loader');
         let cart = [];
         let isReversing = false;
-        let lastTime = 0;
 
-        // --- SISTEMA DE PING-PONG LÓGICO ---
-        function updateVideoLoop(now) {
+        // --- SISTEMA DE PING-PONG ROBUSTO ---
+        function updateVideoLoop() {
             if (!video.duration || isNaN(video.duration)) {
                 requestAnimationFrame(updateVideoLoop);
                 return;
@@ -366,11 +364,11 @@
                     isReversing = false;
                     video.play().catch(() => {});
                 } else {
-                    // Retrocedemos frame a frame (0.05 es la velocidad)
-                    video.currentTime -= 0.05; 
+                    // Retrocedemos el cabezal de tiempo
+                    video.currentTime -= 0.04; 
                 }
             } else {
-                // Avance normal
+                // Avance normal: Detectamos si llega casi al final
                 if (video.currentTime >= video.duration - 0.2) {
                     isReversing = true;
                     video.pause();
@@ -379,12 +377,14 @@
             requestAnimationFrame(updateVideoLoop);
         }
 
-        // Iniciar loop al cargar metadatos
-        video.addEventListener('loadedmetadata', () => {
+        // Manejo de eventos de carga
+        video.addEventListener('canplaythrough', () => {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.style.display = 'none', 500);
             requestAnimationFrame(updateVideoLoop);
         });
 
-        // Intentar reproducir si hay bloqueo de navegador
+        // Forzar inicio si el navegador bloquea autoplay
         document.addEventListener('click', () => {
             if (video.paused && !isReversing) video.play().catch(() => {});
         }, { once: true });

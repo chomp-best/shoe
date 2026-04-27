@@ -38,29 +38,35 @@
             align-items: center;
         }
 
-        /* Hero Video Redimensionado */
+        /* Hero Video Redimensionado y Contenido */
         .hero-video-container {
-            width: 92%;
-            height: 80vh; 
+            width: 90%;
+            height: 75vh; 
             position: relative;
             background: #000;
             z-index: 1;
             border-radius: 32px;
             overflow: hidden;
             border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .video-wrapper {
             width: 100%;
             height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .video-wrapper video {
             width: 100%;
             height: 100%;
-            /* 'cover' para que se adapte al contenedor sin deformarse */
             object-fit: cover; 
-            opacity: 0.8;
+            opacity: 0.85;
+            display: block;
         }
 
         .divider-marquee {
@@ -197,6 +203,7 @@
             border-radius: 12px;
             overflow: hidden;
             background: #000;
+            position: relative;
         }
 
         .card-video-container video {
@@ -246,17 +253,18 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION REDUCIDA -->
+    <!-- HERO SECTION -->
     <section>
         <div class="hero-video-container">
             <div class="video-wrapper">
                 <video id="heroVideo" class="ping-pong-video" autoplay muted playsinline preload="auto">
+                    <!-- Reemplaza este src con tu enlace de GitHub .mp4 cuando lo tengas disponible -->
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-shoes-sneakers-and-urban-clothing-details-41215-preview.mp4" type="video/mp4">
                     <source src="https://raw.githubusercontent.com/chomp-best/shoe/main/Video_De_Sneaker_Giratorio_Hiperrealista.mp4" type="video/mp4">
                 </video>
             </div>
         </div>
         
-        <!-- Frases y Guía de Scroll -->
         <div class="absolute inset-x-0 bottom-8 flex justify-between items-end px-12 z-10 pointer-events-none max-w-full w-full">
             <p class="text-[10px] font-bold uppercase tracking-[0.5em] opacity-60">todos tus pares</p>
             
@@ -305,7 +313,7 @@
                                     <div class="glass-card aspect-[4/5] mb-4 p-3">
                                         <div class="card-video-container group-hover:scale-105 transition-transform duration-1000">
                                             <video class="ping-pong-video w-full h-full object-cover" autoplay muted playsinline preload="auto">
-                                                <source src="https://raw.githubusercontent.com/chomp-best/shoe/main/Video_De_Sneaker_Giratorio_Hiperrealista.mp4" type="video/mp4">
+                                                <source src="https://assets.mixkit.co/videos/preview/mixkit-shoes-sneakers-and-urban-clothing-details-41215-preview.mp4" type="video/mp4">
                                             </video>
                                         </div>
                                     </div>
@@ -345,9 +353,17 @@
                     isReversing: false,
                     duration: 0
                 };
+                
+                // Forzar reproducción inicial y mutear
+                video.muted = true;
+                video.play().catch(() => {
+                    console.log("Esperando interacción para reproducir");
+                });
+
                 video.addEventListener('loadedmetadata', () => {
                     videoState.duration = video.duration;
                 });
+
                 videosToLoop.push(videoState);
             });
             requestAnimationFrame(pingPongLoop);
@@ -355,28 +371,35 @@
 
         function pingPongLoop() {
             videosToLoop.forEach(state => {
-                const video = state.el;
-                if (!state.duration || isNaN(state.duration)) return;
+                const v = state.el;
+                if (!state.duration || isNaN(state.duration) || v.readyState < 2) return;
 
                 if (state.isReversing) {
-                    if (video.currentTime <= 0.1) {
+                    // Retroceso por software (Ping)
+                    v.currentTime -= 0.05; 
+                    if (v.currentTime <= 0.1) {
                         state.isReversing = false;
-                        video.play().catch(() => {});
-                    } else {
-                        // Retroceso suave por software
-                        video.currentTime -= 0.04; 
+                        v.play().catch(() => {});
                     }
                 } else {
-                    if (video.currentTime >= state.duration - 0.2) {
+                    // Avance normal (Pong)
+                    if (v.currentTime >= state.duration - 0.2) {
                         state.isReversing = true;
-                        video.pause();
+                        v.pause();
                     }
                 }
             });
             requestAnimationFrame(pingPongLoop);
         }
 
-        window.addEventListener('DOMContentLoaded', initPingPongVideos);
+        window.addEventListener('load', initPingPongVideos);
+
+        // Forzar reproducción al hacer clic en cualquier lado (política navegadores)
+        document.addEventListener('click', () => {
+            videosToLoop.forEach(s => {
+                if (s.el.paused && !s.isReversing) s.el.play().catch(() => {});
+            });
+        }, { once: true });
 
         function toggleCart() {
             const sidebar = document.getElementById('cart-sidebar');
@@ -411,7 +434,7 @@
                 total += item.price;
                 const itemEl = document.createElement('div');
                 itemEl.className = 'flex justify-between items-center glass-card p-4 border border-white/5 mb-4';
-                itemEl.innerHTML = `<div class="text-white text-[10px] font-bold uppercase">${item.name} <br> <span class="opacity-40">$${item.price}</span></div>`;
+                itemEl.innerHTML = `<div class="text-white text-[10px] font-bold uppercase">${item.name} <br> <span class="opacity-40">$${item.price}.00</span></div>`;
                 container.appendChild(itemEl);
             });
             totalDisplay.innerText = `$${total}.00`;
